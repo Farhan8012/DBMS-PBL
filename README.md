@@ -2,14 +2,15 @@
 
 # 🎓 Campus Placement System
 
-**A DBMS Project — Built with Python & MySQL**
+**A Comprehensive DBMS Project — Built with Streamlit, Python & MySQL**
 
-_A complete placement management system to handle students, companies, job postings, applications, and interview rounds — all from a simple command-line interface._
+_An end-to-end recruitment management portal to handle students, companies, job postings, applications, and interview rounds — featuring an executive Streamlit web dashboard and a command-line interface._
 
 [![Python](https://img.shields.io/badge/Python-3.13-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.51-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://streamlit.io/)
 [![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
+[![Plotly](https://img.shields.io/badge/Plotly-Charts-3F4F75?style=for-the-badge&logo=plotly&logoColor=white)](https://plotly.com/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=for-the-badge)](#contributing)
 
 </div>
 
@@ -17,32 +18,74 @@ _A complete placement management system to handle students, companies, job posti
 
 ## 📖 Overview
 
-The **Campus Placement System** is a relational database application designed to streamline the campus recruitment process. It provides a menu-driven CLI to manage the entire placement lifecycle:
+The **Campus Placement System** is a relational database management application designed to streamline the campus recruitment and training & placement operations. It models and automates the entire placement lifecycle:
 
-> **Student → Application → Interview → Selection**
+> **Student → Job Drive → Eligibility Verification → Application → Interview Rounds → Selection & Automated Placement**
 
-The project demonstrates core DBMS concepts including **schema design, primary/foreign keys, constraints, multi-table JOINs, and CRUD operations** on a normalized MySQL database.
+The project demonstrates core DBMS concepts including **schema design, 3NF normalization, primary/foreign keys, ON DELETE CASCADE constraints, CHECK & ENUM validations, database TRIGGERS, SQL VIEWS, multi-table JOINs, and parameterized CRUD operations** on a MySQL database.
 
 ---
 
-## ✨ Features
+## 🌟 Modern Streamlit Web Frontend
 
-| # | Module | What it does |
-|:-:|--------|--------------|
-| 👨‍🎓 | **Students** | Add and view students with CGPA validation and placement status |
-| 🏢 | **Companies** | Register companies and their HR contact details |
-| 💼 | **Job Postings** | Post roles with package (LPA), min CGPA and deadline |
-| 📄 | **Applications** | Link students to jobs they apply for, track status |
-| 🗓️ | **Interviews** | Schedule rounds, record interviewers and results |
-| 🔍 | **Reports** | Readable reports generated using multi-table JOINs (up to 5 tables) |
+The project includes an **Executive Streamlit Web Application** designed with modern glassmorphism aesthetics, dark tech styling, responsive layouts, and interactive Plotly analytics:
 
-**DBMS highlights used:**
+### 🖥️ Web Portal Modules:
+1. 📊 **Executive Analytics & Dashboard**
+   - Live KPI cards: Total Registered Students, Placed Students, Overall Placement Rate (%), Recruiting Companies, Active Openings, Highest Package (LPA), and Average Package (LPA).
+   - **Interactive Visualizations**:
+     - 💼 Package (LPA) breakdown across Companies and Roles.
+     - 🎓 Department-wise Placement Rates (Placed vs. Unplaced stacked comparison).
+     - 📑 Applications Pipeline Funnel (Applied, Shortlisted, Rejected).
+     - 🗓️ Interview Results Breakdown.
+   - **Placement Hall of Fame**: Live feed powered by the MySQL `placement_summary` View.
 
-- ✅ `PRIMARY KEY` / `FOREIGN KEY` with `ON DELETE CASCADE`
-- ✅ `UNIQUE`, `NOT NULL`, `CHECK`, and `ENUM` constraints
-- ✅ `AUTO_INCREMENT` surrogate keys
-- ✅ Parameterized queries (SQL injection safe)
-- ✅ Normalized schema (3NF) across 5 related tables
+2. 👨‍🎓 **Students Directory**
+   - Real-time search by Student ID, Name, or Email.
+   - Filtering by Department, Placement Status, and Minimum CGPA cutoff.
+   - ➕ Register new students with CGPA & email format validation.
+   - ✏️ Edit student records.
+   - 🗑️ Safe deletion with cascade warnings.
+   - 📥 1-Click CSV export for university administration.
+
+3. 🏢 **Partner Companies**
+   - Directory with corporate metrics (Jobs posted, Sector, HR contact details, Website).
+   - ➕ Register new recruiting partners.
+   - ✏️ Modify company profiles.
+   - 🗑️ Company removal with cascade integrity.
+
+4. 💼 **Job Postings & Recruitment Drives**
+   - Filter drives by minimum compensation (LPA) and company.
+   - Detail cards displaying role, compensation package, minimum CGPA cutoff, and deadlines.
+   - ➕ Post new job opportunities.
+   - ✏️ Edit salary, deadline, or academic eligibility criteria.
+   - 🗑️ Close/remove job postings.
+
+5. 📄 **Applications Pipeline**
+   - Complete 4-table relational view of all submissions.
+   - ➕ **Smart Academic Eligibility Validator**:
+     - Compares candidate's CGPA directly against the job's minimum requirement before submission.
+     - Warns if candidate does not meet the academic cutoff.
+     - Prevents duplicate applications from the same student for the same role.
+   - 🔄 Pipeline status updater (`Applied` → `Shortlisted` → `Rejected`).
+   - 🗑️ Withdraw applications.
+
+6. 🗓️ **Interview Management & Selection Tracking**
+   - 5-table joined schedule of all interview rounds.
+   - ➕ Schedule interview rounds with date/time pickers and interviewer assignment.
+   - 🏆 **Automated Placement Trigger**:
+     - Updating an interview result to **Selected** automatically triggers database synchronization, marking the student as **Placed** in the `students` table.
+     - Celebratory UI animations (`st.balloons()`) and instant confirmation toast.
+
+7. 📑 **Advanced Reports & Multi-Table SQL Views**
+   - 🔗 **Master 5-Table JOIN Report**: Complete relational report joining `students`, `companies`, `job_postings`, `applications`, and `interviews`.
+   - 👁️ **SQL View Explorer**: Direct access to the database view `placement_summary`.
+   - ⚡ **Interactive SQL Explorer**: Run read-only analytical queries with pre-built presets or custom queries.
+   - 📥 Export full reports to CSV.
+
+8. ⚙️ **Database Diagnostics & Demo Data Generator**
+   - Live MySQL server diagnostics (Host, Port, Version, Connection Status).
+   - 🌟 **1-Click Demo Data Generator**: Seeds 8+ diverse students, 5+ global companies (Google, Microsoft, Amazon, Goldman Sachs, TCS), job roles, applications, and interview records with a single click — ideal for viva demonstrations and evaluations!
 
 ---
 
@@ -50,16 +93,20 @@ The project demonstrates core DBMS concepts including **schema design, primary/f
 
 ```
 DBMS-PBL/
+├── app.py                             # Root launcher for Streamlit Web App
 ├── DBMS PROJECT/
 │   └── Campus Placement System/
-│       ├── db.py            # MySQL connection helper
-│       ├── main.py          # CLI application (menus + CRUD logic)
-│       └── placement.sql    # Database schema + tables
-├── Campus_Placement_DBMS.pdf
+│       ├── app.py                     # Main Streamlit Web Application
+│       ├── db.py                      # MySQL connection manager & schema helpers
+│       ├── main.py                    # Menu-driven Command-Line Interface (CLI)
+│       └── placement.sql              # Database schema, triggers & views
+├── .streamlit/
+│   └── config.toml                    # Streamlit theme & server configuration
+├── Campus_Placement_DBMS.pdf          # Complete Project Documentation
 ├── Campus_Placement_Review_1_presentation .pptx
 ├── Campus_Placement_Review_2_presentation.pptx
 ├── Campus_Placement_Review_3_presentation.pptx
-└── README.md
+└── README.md                          # Project documentation
 ```
 
 ---
@@ -115,13 +162,20 @@ erDiagram
     }
 ```
 
-| Table | Key Columns | Purpose |
-|-------|-------------|---------|
-| `students` | `student_id` (PK) | Student records + CGPA constraint (0–10) |
-| `companies` | `company_id` (PK, AI) | Recruiting companies |
-| `job_postings` | `job_id` (PK, AI), `company_id` (FK) | Jobs offered by companies |
-| `applications` | `application_id` (PK, AI), `student_id`, `job_id` (FK) | Student ↔ Job link |
-| `interviews` | `interview_id` (PK, AI), `application_id` (FK) | Interview rounds & results |
+### Table Breakdown
+
+| Table | Key Columns | Purpose & Constraints |
+|---|---|---|
+| `students` | `student_id` (PK) | Stores student profiles; includes `CHECK (cgpa >= 0 AND cgpa <= 10.0)` |
+| `companies` | `company_id` (PK, AI) | Partner recruiting organizations with unique HR emails |
+| `job_postings` | `job_id` (PK, AI), `company_id` (FK) | Opportunities posted by companies (`ON DELETE CASCADE`) |
+| `applications` | `application_id` (PK, AI), `student_id`, `job_id` (FK) | Relational link tracking applicant status |
+| `interviews` | `interview_id` (PK, AI), `application_id` (FK) | Tracks interview rounds, interviewers, and outcomes |
+
+### Triggers & Views Used
+
+- **Trigger `update_student_status`**: Executes `AFTER UPDATE ON interviews` — automatically sets the student's status to `'Placed'` when `result = 'Selected'`.
+- **View `placement_summary`**: Multi-table joined view summarizing placed student details, department, hiring company, and offered package (LPA).
 
 ---
 
@@ -129,54 +183,77 @@ erDiagram
 
 ### Prerequisites
 
-- [Python 3.13+](https://www.python.org/downloads/)
-- [MySQL 8.0+](https://dev.mysql.com/downloads/mysql/) (or XAMPP / WAMP)
-- MySQL Connector: `pip install mysql-connector-python`
+- [Python 3.10+](https://www.python.org/downloads/)
+- [MySQL 8.0+](https://dev.mysql.com/downloads/mysql/) (or XAMPP / WAMP / MySQL Workbench)
+- Required Python libraries:
+  ```bash
+  pip install streamlit plotly pandas mysql-connector-python
+  ```
 
-### Installation
+### 1. Database Setup
 
-**1. Clone the repository**
+Create the database and run the schema script:
 
-```bash
-git clone https://github.com/Farhan8012/DBMS-PBL.git
-cd DBMS-PBL
+```sql
+CREATE DATABASE IF NOT EXISTS campus_placement;
 ```
 
-**2. Create the database & tables**
+Run `placement.sql` into MySQL:
 
 ```bash
-mysql -u root -p < "DBMS PROJECT/Campus Placement System/placement.sql"
+mysql -u root -p campus_placement < "DBMS PROJECT/Campus Placement System/placement.sql"
 ```
 
-> Or run `placement.sql` manually in MySQL Workbench / phpMyAdmin.
+> Alternatively, open `placement.sql` in MySQL Workbench or phpMyAdmin and execute all statements.
 
-**3. Configure your credentials**
+### 2. Configure Database Credentials
 
-Open `db.py` and update your MySQL username and password:
+The system connects using standard MySQL credentials. You can update `DBMS PROJECT/Campus Placement System/db.py` or set environment variables:
 
 ```python
-connection = mysql.connector.connect(
-    host="localhost",
-    user="root",          # ← your MySQL username
-    password="your_password",  # ← your MySQL password
-    database="campus_placement"
-)
+# db.py
+DEFAULT_CONFIG = {
+    "host": os.getenv("DB_HOST", "localhost"),
+    "user": os.getenv("DB_USER", "root"),
+    "password": os.getenv("DB_PASSWORD", "Farhan@123"),  # Replace with your MySQL password
+    "database": os.getenv("DB_NAME", "campus_placement"),
+    "port": int(os.getenv("DB_PORT", 3306))
+}
 ```
 
-**4. Run the application**
+---
+
+## 💻 Running the Application
+
+### Option A: Launch the Streamlit Web Application (Recommended)
+
+From the project root directory, run:
+
+```bash
+streamlit run app.py
+```
+
+Or from the inner folder:
+
+```bash
+cd "DBMS PROJECT/Campus Placement System"
+streamlit run app.py
+```
+
+The web dashboard will automatically open in your default browser at `http://localhost:8501`.
+
+---
+
+### Option B: Launch the Command-Line Interface (CLI)
+
+If you prefer the menu-driven terminal interface:
 
 ```bash
 cd "DBMS PROJECT/Campus Placement System"
 python main.py
 ```
 
----
-
-## 🕹️ Usage
-
-When you run the app, you'll see this menu:
-
-```
+```text
 ==============================
  CAMPUS PLACEMENT SYSTEM 
 ==============================
@@ -193,47 +270,27 @@ When you run the app, you'll see this menu:
 11. Exit
 ```
 
-**Example workflow:**
-
-1. Add a **student** (`STU001`, CGPA, department…)
-2. Add a **company** (name, HR email, industry)
-3. Create a **job posting** linked to that company
-4. Submit an **application** — pick the student and the job
-5. Schedule an **interview** for the application
-6. View the interview report — a 5-table JOIN showing the full picture 🎉
-
 ---
 
 ## 📚 Reviews & Deliverables
 
 | Document | Description |
-|----------|-------------|
-| [📘 Project Report (PDF)](Campus_Placement_DBMS.pdf) | Full project documentation & design |
+|---|---|
+| [📘 Project Report (PDF)](Campus_Placement_DBMS.pdf) | Complete project documentation, ER diagram, and schema design |
 | [📊 Review 1 Presentation](Campus_Placement_Review_1_presentation%20.pptx) | Problem statement & requirement analysis |
-| [📊 Review 2 Presentation](Campus_Placement_Review_2_presentation.pptx) | ER diagram & schema design |
-| [📊 Review 3 Presentation](Campus_Placement_Review_3_presentation.pptx) | Implementation & results |
+| [📊 Review 2 Presentation](Campus_Placement_Review_2_presentation.pptx) | ER diagram, normalization & schema design |
+| [📊 Review 3 Presentation](Campus_Placement_Review_3_presentation.pptx) | Implementation, queries & results |
 
 ---
 
 ## 🛣️ Roadmap
 
-- [ ] Search & filter students by CGPA / department
-- [ ] Placement statistics dashboard (placed vs. unplaced)
-- [ ] Export reports to CSV / PDF
-- [ ] Web interface (Flask / Django)
-- [ ] Role-based login (Admin / TPO / Student)
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Fork the repo, create a feature branch, and open a pull request.
-
-```bash
-git checkout -b feature/amazing-feature
-git commit -m "Add amazing feature"
-git push origin feature/amazing-feature
-```
+- [x] Search & filter students by CGPA / department
+- [x] Placement statistics dashboard (placed vs. unplaced)
+- [x] Export reports to CSV
+- [x] Web interface (Streamlit Executive Dashboard)
+- [x] Automatic placement synchronization via triggers
+- [x] 1-Click realistic demo dataset generator
 
 ---
 
@@ -245,10 +302,4 @@ git push origin feature/amazing-feature
 
 ## 📄 License
 
-This project is for academic purposes under the DBMS course (PBL).
-
----
-
-<div align="center">
-  ⭐ Star this repo if you found it helpful!
-</div>
+This project is developed for academic purposes under the Database Management Systems Course (PBL).

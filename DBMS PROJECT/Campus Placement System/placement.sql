@@ -55,3 +55,25 @@ CREATE TABLE interviews (
     result ENUM('Pending', 'Selected', 'Rejected') DEFAULT 'Pending',
     FOREIGN KEY (application_id) REFERENCES applications(application_id) ON DELETE CASCADE
 );
+
+DELIMITER //
+CREATE TRIGGER update_student_status
+AFTER UPDATE ON interviews
+FOR EACH ROW
+BEGIN
+    IF NEW.result = 'Selected' THEN
+        UPDATE students 
+        SET status = 'Placed' 
+        WHERE student_id = (SELECT student_id FROM applications WHERE application_id = NEW.application_id);
+    END IF;
+END; //
+DELIMITER ;
+
+CREATE VIEW placement_summary AS
+SELECT s.first_name, s.last_name, s.department, c.company_name, j.package_lpa
+FROM interviews i
+JOIN applications a ON i.application_id = a.application_id
+JOIN students s ON a.student_id = s.student_id
+JOIN job_postings j ON a.job_id = j.job_id
+JOIN companies c ON j.company_id = c.company_id
+WHERE i.result = 'Selected';
